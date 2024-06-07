@@ -9,7 +9,7 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 const API_KEY = process.env.API_KEY;
-const lang = "pt";
+const lang = process.env.LANG || "en";
 
 app.use(cors());
 app.use(express.json());
@@ -24,9 +24,7 @@ app.post("/post", async (req, res) => {
     const weatherDataResponse = cityGeocodeData.map(async (city) => {
       if (city) {
         const cityWeatherResponse = await axios.get(
-          `https://api.openweathermap.org/data/2.5/weather?lat=${
-            city.lat
-          }&lon=${city.lon}&appid=${API_KEY}&units=metric&lang=${lang || "en"}`
+          `https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lon}&appid=${API_KEY}&units=metric&lang=${lang}`
         );
         console.log(cityWeatherResponse.data);
         return {
